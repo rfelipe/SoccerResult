@@ -30,6 +30,18 @@ class SoccerApiService
         return null;
     }
 
+    public function getTeams()
+    {
+        $response = Http::withHeaders([
+            'X-Auth-Token' => $this->apiKey,
+        ])->get($this->baseUrl . 'teams/?limit=999' );
+
+        if ($response->successful()) {
+            return $response->json();
+        }
+
+        return null;
+    }
 
     public function showMatches($competitionId)
     {

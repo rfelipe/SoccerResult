@@ -8,5 +8,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [SoccerController::class, 'listCompetitions'])->name('form');
+Route::get('/list/team', [SoccerController::class, 'listTeams'])->name('lista.time');
 Route::get('/leagues', [SoccerController::class, 'leagues']);
 Route::get('/matches', [SoccerController::class, 'showMatches'])->name('matches.show');
+Route::get('/matches/team', [SoccerController::class, 'showMatches'])->name('matches.show');

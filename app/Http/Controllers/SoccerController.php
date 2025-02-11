@@ -35,6 +35,16 @@ class SoccerController extends Controller
         return view('form', ['error' => 'Não foi possível obter as partidas.']);
     }
 
+    public function listTeams()
+    {
+        $teams = $this->soccerApiService->getTeams();
+
+        if ($teams) {
+            return view('listatime', ['teams' => $teams['teams']]);
+        }
+        return view('listatime', ['error' => 'Não foi possível obter as partidas.']);
+    }
+
     public function showMatches(Request $request)
     {
         $params = $request->only(['dateFrom', 'dateTo']);
