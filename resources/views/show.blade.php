@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Exibir Resultados dos Jogos')
+@section('title', 'Veja o Resultados dos Jogos')
 
 @section('header')
 <header class="py-10 text-center">
