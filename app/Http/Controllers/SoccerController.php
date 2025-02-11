@@ -51,9 +51,10 @@ class SoccerController extends Controller
         $competitionId = $request->only(['competitionId']);
 
         $matches = $this->soccerApiService->showMatches($competitionId['competitionId'], $params);
+        $matchesLast = $this->soccerApiService->showMatchesLast($competitionId['competitionId'], $params);
 
         if ($matches) {
-            return view('index', ['matches' => $matches]);
+            return view('index', ['matches' => $matches, 'matchesLast' => $matchesLast]);
         } else {
             return view('index', ['error' => 'Não foi possível obter os jogos.']);
         }
