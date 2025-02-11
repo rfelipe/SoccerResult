@@ -14,49 +14,70 @@ class SoccerController extends Controller
         $this->soccerApiService = $soccerApiService;
     }
 
-    public function index()
-    {
-        $matches = $this->soccerApiService->getMatches($params);
+    // public function index()
+    // {
+    //     $matches = $this->soccerApiService->getMatches($params);
 
-        if ($matches) {
-            return view('index', ['matches' => $matches['matches']]);
-        }
+    //     if ($matches) {
+    //         return view('index', ['matches' => $matches['matches']]);
+    //     }
 
-        return view('index', ['error' => 'Não foi possível obter as partidas.']);
-    }
+    //     return view('index', ['error' => 'Não foi possível obter as partidas.']);
+    // }
 
     public function listCompetitions()
     {
         $competitions = $this->soccerApiService->getCompetitions();
 
         if ($competitions) {
-            return view('form', ['competitions' => $competitions['competitions']]);
+            return view('index', ['competitions' => $competitions['competitions']]);
         }
-        return view('form', ['error' => 'Não foi possível obter as partidas.']);
+        return view('index', ['error' => 'Não foi possível obter as partidas.']);
     }
 
     public function listTeams()
     {
-        $teams = $this->soccerApiService->getTeams();
+        $info = explode('|', $request->input('competitionInfo'));
+        $competitionId = $info[0];
+        $competitionCode = $info[1];
+
+        $teams = $this->soccerApiService->getTeams($competitionCode);
 
         if ($teams) {
-            return view('listatime', ['teams' => $teams['teams']]);
+            return view('listTeam', ['teams' => $teams['teams']]);
         }
-        return view('listatime', ['error' => 'Não foi possível obter as partidas.']);
+        return view('listTeam', ['error' => 'Não foi possível obter as partidas.']);
     }
 
     public function showMatches(Request $request)
     {
-        $params = $request->only(['dateFrom', 'dateTo']);
-        $competitionId = $request->only(['competitionId']);
+        $info = explode('|', $request->input('competitionInfo'));
+        $competitionId = $info[0];
+        $competitionCode = $info[1];
 
-        $matches = $this->soccerApiService->showMatches($competitionId['competitionId'], $params);
-        $matchesLast = $this->soccerApiService->showMatchesLast($competitionId['competitionId'], $params);
+        $matches = $this->soccerApiService->showMatches($competitionId);
+        $matchesLast = $this->soccerApiService->showMatchesLast($competitionId);
+        $teams = $this->soccerApiService->getTeams($competitionCode);
 
         if ($matches) {
-            return view('index', ['matches' => $matches, 'matchesLast' => $matchesLast]);
+            return view('show', ['matches' => $matches, 'matchesLast' => $matchesLast, 'teams' => $teams]);
         } else {
-            return view('index', ['error' => 'Não foi possível obter os jogos.']);
+            return view('show', ['error' => 'Não foi possível obter os jogos.']);
+        }
+    }
+
+    public function showMatchesTeam(Request $request)
+    {
+        $teamId = $request->input('team');
+
+        $teamMatches = $this->soccerApiService->showTeamMatches($teamId);
+        $teamMatchesLast = $this->soccerApiService->showTeamMatchesLast($teamId);
+        $competitions = $this->soccerApiService->getCompetitions();
+
+        if ($teamMatchesLast) {
+            return view('show', ['matches' => $teamMatches, 'matchesLast' => $teamMatchesLast, 'competitions' => $competitions['competitions']]);
+        } else {
+            return view('show', ['error' => 'Não foi possível obter os jogos.']);
         }
     }
 }

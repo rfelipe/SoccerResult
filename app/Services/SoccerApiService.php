@@ -30,14 +30,15 @@ class SoccerApiService
         return null;
     }
 
-    public function getTeams()
+    public function getTeams($competitionCode)
     {
         $response = Http::withHeaders([
             'X-Auth-Token' => $this->apiKey,
-        ])->get($this->baseUrl . 'teams/?limit=999' );
+        ])->get($this->baseUrl . 'competitions/' . $competitionCode . '/teams' );
+
 
         if ($response->successful()) {
-            return $response->json();
+            return $response->json()['teams'];
         }
 
         return null;
@@ -63,7 +64,6 @@ class SoccerApiService
     
     public function showMatchesLast($competitionId)
     {
- 
         $dateFrom = Carbon::now()->subWeek()->toDateString(); 
         $dateTo = Carbon::now()->toDateString();
         $datebetween = '?dateFrom=' . $dateFrom . '&dateTo=' . $dateTo;
@@ -78,4 +78,39 @@ class SoccerApiService
 
         return null;
     }
+
+    public function showTeamMatches($teamId)
+    {
+        $dateFrom = Carbon::now()->toDateString();
+        $dateTo = Carbon::now()->addWeek()->toDateString();
+        $dateBetween = '?dateFrom=' . $dateFrom . '&dateTo=' . $dateTo;
+
+        $response = Http::withHeaders([
+            'X-Auth-Token' => $this->apiKey,
+        ])->get($this->baseUrl . 'teams/' . $teamId . '/matches' . $dateBetween);
+
+        if ($response->successful()) {
+            return $response->json()['matches'];
+        }
+
+        return null;
+    }
+
+    public function showTeamMatchesLast($teamId)
+    {
+        $dateFrom = Carbon::now()->subWeek()->toDateString(); 
+        $dateTo = Carbon::now()->toDateString(); 
+        $dateBetween = '?dateFrom=' . $dateFrom . '&dateTo=' . $dateTo;
+
+        $response = Http::withHeaders([
+            'X-Auth-Token' => $this->apiKey,
+        ])->get($this->baseUrl . 'teams/' . $teamId . '/matches' . $dateBetween);
+
+        if ($response->successful()) {
+            return $response->json()['matches'];
+        }
+
+        return null;
+    }
+
 }
