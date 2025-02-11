@@ -11,14 +11,11 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
-        {{-- Seção do Header --}}
         @yield('header')
-
-        {{-- Seção do Conteúdo Principal --}}
         @yield('main')
 
         <footer class="py-16 text-center text-sm text-black dark:text-white/70">
-            {{-- Conteúdo do footer, se desejar --}}
+            &copy; {{ date('Y') }} Soccer Results
         </footer>
     </body>
-</html
+</html>

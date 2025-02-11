@@ -47,7 +47,7 @@ class SoccerApiService
     public function showMatches($competitionId)
     {
  
-        $dateFrom = Carbon::now()->toDateString();
+        $dateFrom = Carbon::now()->subWeek()->toDateString(); 
         $dateTo = Carbon::now()->addWeek()->toDateString();
         $datebetween = '?dateFrom=' . $dateFrom . '&dateTo=' . $dateTo;
 
@@ -62,26 +62,26 @@ class SoccerApiService
         return null;
     }
     
-    public function showMatchesLast($competitionId)
-    {
-        $dateFrom = Carbon::now()->subWeek()->toDateString(); 
-        $dateTo = Carbon::now()->toDateString();
-        $datebetween = '?dateFrom=' . $dateFrom . '&dateTo=' . $dateTo;
+    // public function showMatchesLast($competitionId)
+    // {
+    //     $dateFrom = Carbon::now()->subWeek()->toDateString(); 
+    //     $dateTo = Carbon::now()->toDateString();
+    //     $datebetween = '?dateFrom=' . $dateFrom . '&dateTo=' . $dateTo;
 
-        $response = Http::withHeaders([
-            'X-Auth-Token' => $this->apiKey,
-        ])->get($this->baseUrl . 'competitions/' . $competitionId . '/matches' . $datebetween);
+    //     $response = Http::withHeaders([
+    //         'X-Auth-Token' => $this->apiKey,
+    //     ])->get($this->baseUrl . 'competitions/' . $competitionId . '/matches' . $datebetween);
 
-        if ($response->successful()) {
-            return $response->json()['matches'];
-        }
+    //     if ($response->successful()) {
+    //         return $response->json()['matches'];
+    //     }
 
-        return null;
-    }
+    //     return null;
+    // }
 
     public function showTeamMatches($teamId)
     {
-        $dateFrom = Carbon::now()->toDateString();
+        $dateFrom = Carbon::now()->subWeek()->toDateString(); 
         $dateTo = Carbon::now()->addWeek()->toDateString();
         $dateBetween = '?dateFrom=' . $dateFrom . '&dateTo=' . $dateTo;
 
@@ -96,21 +96,21 @@ class SoccerApiService
         return null;
     }
 
-    public function showTeamMatchesLast($teamId)
-    {
-        $dateFrom = Carbon::now()->subWeek()->toDateString(); 
-        $dateTo = Carbon::now()->toDateString(); 
-        $dateBetween = '?dateFrom=' . $dateFrom . '&dateTo=' . $dateTo;
+    // public function showTeamMatchesLast($teamId)
+    // {
+    //     $dateFrom = Carbon::now()->subWeek()->toDateString(); 
+    //     $dateTo = Carbon::now()->toDateString(); 
+    //     $dateBetween = '?dateFrom=' . $dateFrom . '&dateTo=' . $dateTo;
 
-        $response = Http::withHeaders([
-            'X-Auth-Token' => $this->apiKey,
-        ])->get($this->baseUrl . 'teams/' . $teamId . '/matches' . $dateBetween);
+    //     $response = Http::withHeaders([
+    //         'X-Auth-Token' => $this->apiKey,
+    //     ])->get($this->baseUrl . 'teams/' . $teamId . '/matches' . $dateBetween);
 
-        if ($response->successful()) {
-            return $response->json()['matches'];
-        }
+    //     if ($response->successful()) {
+    //         return $response->json()['matches'];
+    //     }
 
-        return null;
-    }
+    //     return null;
+    // }
 
 }

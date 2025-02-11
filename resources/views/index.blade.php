@@ -1,42 +1,52 @@
 @extends('layouts.app')
-@section('title', 'Exibi Resultado dos jogos')
+@section('title', 'Veja O Resultado dos Jogos')
 
 @section('header')
-    <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
+<header class="py-10 text-center">
+    <h1 class="text-3xl font-bold">Veja os Resultados dos Jogos</h1>
+</header>
+@endsection
+
+@section('main')
+<div class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-center">
         @if(isset($competitions))
-            <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
-                <h1>Selecione uma Competição</h1>
-                <form action="{{ route('matches.show') }}" method="GET">
-                    <div class="form-group">
-                        <label for="competition">Escolha o Campeonato</label>
-                        <select name="competitionInfo" id="competition" class="form-control">
-                            @foreach($competitions as $competition)
-                                <option value="{{ $competition['id'] }}|{{ $competition['code'] }}">
-                                    {{ $competition['name'] }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Ver Jogos</button>
-                </form>
-            </div>
+        <div class="w-full max-w-lg bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <form action="{{ route('matches.show') }}" method="GET">
+                <div class="mb-4">
+                    <label for="competition" class="block font-medium">Escolha o Campeonato</label>
+                    <select name="competitionInfo" id="competition" class="w-full px-4 py-2 border rounded">
+                        @foreach($competitions as $competition)
+                            <option value="{{ $competition['id'] }}|{{ $competition['code'] }}">
+                                {{ $competition['name'] }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Ver Jogos
+                </button>
+            </form>
+        </div>
         @elseif(isset($teams))
-            <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
-                <h1>Selecione uma Competição</h1>
-                <form action="{{ route('matches.time.show') }}" method="GET">
-                    <div class="form-group">
-                        <label for="team">Escolha um time</label>
-                        <select name="team" id="team" class="form-control">
-                            @foreach($teams as $team)
-                                <option value="{{ $team['id'] }}">
-                                    {{ $team['name'] }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Ver Jogos</button>
-                </form>
-            </div>
+        <div class="w-full max-w-lg bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <form action="{{ route('matches.time.show') }}" method="GET">
+                <div class="mb-4">
+                    <label for="team" class="block font-medium">Escolha um Time</label>
+                    <select name="team" id="team" class="w-full px-4 py-2 border rounded">
+                        @foreach($teams as $team)
+                            <option value="{{ $team['id'] }}">
+                                {{ $team['name'] }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Ver Jogos
+                </button>
+            </form>
+        </div>
         @endif
-    </header>
+    </div>
+</div>
 @endsection
